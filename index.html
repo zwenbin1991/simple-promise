@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script src="src/simple-promise.js"></script>
+    <script>
+//        new SimplePromise(function (resolve) {
+//            setTimeout(function () {
+//                resolve(40, 30);
+//            }, 0);
+//        }).then(function (v1, v2) {
+//            return v1 + v2;
+//        }).then(function (v3) {
+//            console.log(v3);
+//        });
+
+        var d = new SimplePromise(function (resolve) {
+            resolve(10);
+        }).then(function (v1) {
+            return new SimplePromise(function (resolve) {
+                resolve(v1);
+            }).then(function (v1) {
+                console.log(v1, '哇哈哈');
+                return v1 * 10;
+            })
+        }).then(function (a3) {
+            console.log(a3, '单');
+        });
+
+        /*
+         当then所注册的回调函数中，没有返回promise实例，还是在当前Promise对象执行
+         如果返回新的promise对象，则接下来的then所注册的回调函数也会排到新的回调函数后面执行
+        * */
+        //console.log('sync');
+
+        /*
+            支持异步过程
+
+
+        * */
+        /*
+            promise api
+            1、resolve。promise化，创建既自动调用then所申请的resolve函数
+                => new Promise(function (resolve) {
+                    resolve(param)
+                })
+        * */
+
+
+
+
+
+
+
+
+        // all race
+        // all方法等待所有的promise对象统一为onResolve或者onReject才调用后面的then
+
+//        Promise
+//            .resolve(40)
+//                .then(function (value) {
+//                    return value * 10
+//                })
+//                .then(function (value) {
+//                    value();
+//                })
+//                .catch(function (error) {
+//                    console.log(error);
+//                });
+
+
+
+        /*
+            开发设计
+            - promise会异步的调用resolve或reject方法
+        * */
+        // promise会异步的调用resolve或者reject方法
+        // 代码发生异常或者调用reject方法就会调用onReject方法
+        // 如果onResolve或onReject没有返回promise对象，则返回新的promise对象，值传递给下一个onResolve或onReject方法
+        // 没有用promise chain调用，在onResolve方法中产生的异常不会被promise所捕获
+    </script>
+</body>
+</html>
